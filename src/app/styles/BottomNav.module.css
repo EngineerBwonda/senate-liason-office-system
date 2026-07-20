@@ -1,0 +1,58 @@
+/* components/layout/BottomNav.module.css */
+.bottomNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  display: none;
+  justify-content: space-around;
+  padding: 0.4rem 0;
+  z-index: 1050;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--bs-secondary);
+  transition: color 0.2s;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+}
+
+.navItem:hover {
+  color: #0d6efd;
+}
+
+.navItem.active {
+  color: #0d6efd;
+}
+
+.navLabel {
+  font-size: 0.65rem;
+  margin-top: 0.1rem;
+}
+
+:global([data-bs-theme="dark"]) .bottomNav {
+  background: rgba(15, 25, 45, 0.85);
+  border-color: #253245;
+}
+
+:global([data-bs-theme="dark"]) .navItem {
+  color: #8a9bb8;
+}
+
+:global([data-bs-theme="dark"]) .navItem.active {
+  color: #3b7bff;
+}
+
+@media (max-width: 767.98px) {
+  .bottomNav {
+    display: flex;
+  }
+}

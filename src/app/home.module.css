@@ -1,0 +1,132 @@
+/* app/page.module.css */
+.container {
+  composes: container-fluid from global;
+  padding: 0;
+}
+
+.row {
+  composes: row from global;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.main {
+  composes: col-md-10 col-lg-10 from global;
+  padding: 1rem 1.5rem 1.5rem;
+  min-height: 100vh;
+  transition: all 0.3s;
+  animation: fadeUp 0.35s ease;
+}
+
+.mainWithSidebar {
+  margin-left: 260px;
+}
+
+@media (max-width: 767.98px) {
+  .mainWithSidebar {
+    margin-left: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+  margin-bottom: 1.75rem;
+}
+
+.gridItem {
+  display: flex;
+}
+
+.gridItem > a {
+  width: 100%;
+}
+
+@media (max-width: 991.98px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+}
+
+.skeletonGrid {
+  composes: row from global;
+  margin-bottom: 1rem;
+}
+
+.skeletonCol {
+  composes: col-md-4 from global;
+  padding: 0.5rem;
+}
+
+.loadedContent {
+  composes: col-12 from global;
+  padding: 0.5rem;
+  color: var(--bs-secondary);
+  margin-bottom: 1rem;
+}
+
+.contentGrid {
+  composes: row from global;
+  gap: 1.5rem;
+}
+
+.contentLeft {
+  composes: col-lg-8 from global;
+}
+
+.contentRight {
+  composes: col-lg-4 from global;
+}
+
+.emptyState {
+  opacity: 0.6;
+  text-align: center;
+  padding: 2rem;
+}
+
+.footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+  color: var(--bs-secondary);
+  font-size: 0.875rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footerLink {
+  color: var(--bs-secondary);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+:global([data-bs-theme="dark"]) .footer {
+  border-top-color: #253245;
+}
+
+:global([data-bs-theme="dark"]) .footerLink {
+  color: #aab8d0;
+}

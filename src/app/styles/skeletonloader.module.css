@@ -1,0 +1,20 @@
+/* components/ui/SkeletonLoader.module.css */
+.skeleton {
+  background: linear-gradient(90deg, #e9ecef 25%, #dde1e6 50%, #e9ecef 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+:global([data-bs-theme="dark"]) .skeleton {
+  background: linear-gradient(90deg, #2a3a4f 25%, #3a4a5f 50%, #2a3a4f 75%);
+}

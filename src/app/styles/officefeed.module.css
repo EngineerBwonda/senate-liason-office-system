@@ -1,0 +1,53 @@
+/* components/dashboard/OfficeFeed.module.css */
+.card {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 20, 40, 0.06);
+  border-radius: 1rem;
+}
+
+.header {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.feedItem {
+  border-left: 3px solid #0d6efd;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.feedItem:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.feedContent {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.author {
+  font-weight: 600;
+}
+
+.time {
+  color: var(--bs-secondary);
+  font-size: 0.75rem;
+}
+
+.content {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+:global([data-bs-theme="dark"]) .card {
+  background: rgba(20, 30, 50, 0.55);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+:global([data-bs-theme="dark"]) .time {
+  color: #aab8d0;
+}

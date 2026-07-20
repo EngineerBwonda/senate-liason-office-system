@@ -1,0 +1,56 @@
+/* components/dashboard/QuickActions.module.css */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.col {
+  display: flex;
+}
+
+.actionBtn {
+  flex: 1;
+  border-radius: 16px;
+  padding: 0.8rem 0.5rem;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s;
+  text-decoration: none;
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+}
+
+.actionBtn:hover {
+  background: rgba(13, 110, 253, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.08);
+}
+
+.actionIcon {
+  font-size: 1.75rem;
+  color: #0d6efd;
+}
+
+:global([data-bs-theme="dark"]) .actionBtn {
+  background: rgba(40, 55, 80, 0.4);
+  border-color: rgba(255, 255, 255, 0.06);
+  color: #dce4f0;
+}
+
+:global([data-bs-theme="dark"]) .actionBtn:hover {
+  background: rgba(13, 110, 253, 0.2);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

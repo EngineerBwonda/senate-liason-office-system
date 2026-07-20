@@ -1,0 +1,46 @@
+/* components/dashboard/StatCard.module.css */
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #0d6efd;
+  transition: all 0.25s;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(13, 110, 253, 0.08);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -8px rgba(13, 110, 253, 0.15);
+}
+
+.icon {
+  font-size: 1.75rem;
+  color: #0d6efd;
+}
+
+.count {
+  font-weight: 700;
+  margin: 0.25rem 0 0.125rem;
+  color: var(--bs-dark);
+}
+
+.label {
+  color: var(--bs-secondary);
+  font-size: 0.875rem;
+}
+
+:global([data-bs-theme="dark"]) .card {
+  background: rgba(30, 40, 60, 0.65);
+  border-color: rgba(255, 255, 255, 0.06);
+  border-top-color: #3b7bff;
+}
+
+:global([data-bs-theme="dark"]) .count {
+  color: #eef2f7;
+}
+
+:global([data-bs-theme="dark"]) .label {
+  color: #aab8d0;
+}
