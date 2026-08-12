@@ -1,0 +1,616 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap");
+
+/*
+  Industrial-blue token reference
+  --------------------------------
+  Navy (darkest)   #0B1E33   backdrop accents, lightbox
+  Steel blue       #163A5C   headings, dark surfaces
+  Signal blue      #2C7BE5   primary actions, active states, links
+  Background       #EDF1F6   page background
+  Surface          #FFFFFF   cards, modal
+  Text             #142433   body text
+  Muted text       #5B6B7C   secondary text
+  Border           #D7DEE7   hairlines
+  Rivet grey       #9AA7B4   decorative corner marks
+*/
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  background: #edf1f6;
+  font-family: "Inter", sans-serif;
+  color: #142433;
+  overflow-x: hidden;
+}
+
+/* Faint schematic/blueprint grid behind the whole page — the industrial signature */
+.blueprintGrid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(22, 58, 92, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 58, 92, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    rgba(0, 0, 0, 0.15) 70%,
+    transparent
+  );
+}
+
+/* Header ------------------------------------------------------------ */
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+
+.metaTopRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+}
+
+.viewerChip {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #163a5c;
+  background: #e3ecfa;
+  border: 1px solid #bfd2ef;
+  border-radius: 999px;
+  padding: 0.24rem 0.6rem;
+}
+
+.contributorText {
+  color: #425a74;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #2c7be5;
+  margin-bottom: 0.35rem;
+}
+
+.heading {
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 2.15rem;
+  color: #163a5c;
+  margin: 0;
+}
+
+.uploadBtn {
+  background: #163a5c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.4rem 0.7rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 0 #0b1e33;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.uploadBtnIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #2c7be5;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.uploadBtn:hover {
+  background: #2c7be5;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 #0b1e33;
+}
+
+.uploadBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #0b1e33;
+}
+
+.uploadBtnGhost {
+  background: transparent;
+  border: 1.5px solid #2c7be5;
+  color: #2c7be5;
+  border-radius: 6px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.uploadBtnGhost:hover {
+  background: #2c7be5;
+  color: #fff;
+}
+
+/* Album tabs ---------------------------------------------------------- */
+
+.tabRow {
+  border-bottom: 1px solid #d7dee7;
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.tab {
+  background: #fff;
+  border: 1px solid #d7dee7;
+  border-radius: 4px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3d4f61;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.18s ease;
+}
+
+.tab:hover {
+  border-color: #2c7be5;
+  color: #163a5c;
+}
+
+.tabActive {
+  background: #163a5c;
+  border-color: #163a5c;
+  color: #fff;
+}
+
+.tabCount {
+  font-family: "IBM Plex Mono", monospace;
+  background: rgba(20, 36, 51, 0.07);
+  border-radius: 3px;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.72rem;
+}
+
+.tabActive .tabCount {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Masonry photo grid --------------------------------------------------- */
+/* CSS columns give a true masonry layout — natural image heights instead
+   of forcing every photo into an identical crop. */
+
+.grid {
+  column-count: 3;
+  column-gap: 1.35rem;
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 860px) {
+  .grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 540px) {
+  .grid {
+    column-count: 1;
+    column-gap: 1rem;
+  }
+}
+
+.card {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: 1.35rem;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #d7dee7;
+  box-shadow: 0 2px 10px rgba(11, 30, 51, 0.06);
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 22px rgba(11, 30, 51, 0.14);
+  transform: translateY(-2px);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.04);
+}
+
+.cardActions {
+  position: absolute;
+  inset: 0.7rem 0.7rem auto auto;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  max-width: 84%;
+}
+
+.cardActionBtn,
+.cardActionBtnSecondary,
+.cardActionBtnDanger {
+  border: 1px solid rgba(207, 224, 242, 0.95);
+  background: rgba(7, 22, 38, 0.72);
+  color: #f3f8ff;
+  border-radius: 999px;
+  padding: 0.2rem 0.62rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.cardActionBtn:hover,
+.cardActionBtnSecondary:hover,
+.cardActionBtnDanger:hover {
+  background: rgba(16, 51, 87, 0.92);
+  border-color: #a4c6f0;
+  color: #ffffff;
+}
+
+.cardActionBtnSecondary {
+  background: rgba(22, 58, 92, 0.82);
+}
+
+.cardActionBtnDanger {
+  background: rgba(131, 34, 34, 0.82);
+  border-color: rgba(255, 187, 187, 0.95);
+}
+
+.cardActionBtnDanger:hover {
+  background: rgba(168, 36, 36, 0.95);
+  border-color: rgba(255, 205, 205, 0.95);
+}
+
+/* Small stenciled corner bracket — the industrial "spec sheet" detail */
+.cardCorner {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid rgba(255, 255, 255, 0.85);
+  border-right: 2px solid rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .cardCorner {
+  opacity: 1;
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(to top, rgba(11, 30, 51, 0.92), transparent);
+  color: #fff;
+  padding: 1.75rem 0.9rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.card:hover .cardOverlay {
+  opacity: 1;
+}
+
+.cardAlbum {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 500;
+  color: #7fb3f2;
+}
+
+.cardCaption {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4.5rem 1rem;
+  color: #5b6b7c;
+  background: #fff;
+  border: 1px dashed #d7dee7;
+  border-radius: 10px;
+}
+
+/* Lightbox -------------------------------------------------------------- */
+
+.lightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 16, 28, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 2rem;
+}
+
+.lightboxBackdrop img {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.lightboxCaption {
+  font-family: "IBM Plex Mono", monospace;
+  color: #cfe0f2;
+  font-size: 0.82rem;
+  text-align: center;
+  margin-top: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.75rem;
+  }
+
+  .headerRow {
+    align-items: flex-start;
+  }
+
+  .uploadBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cardActions {
+    max-width: 92%;
+  }
+}
+
+/* Modal ------------------------------------------------------------------ */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 30, 51, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(6, 16, 28, 0.3);
+  border-top: 4px solid #2c7be5;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.modalHeader h2 {
+  font-family: "Oswald", sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.25rem;
+  color: #163a5c;
+  margin: 0;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #5b6b7c;
+}
+
+.closeBtn:hover {
+  color: #163a5c;
+}
+
+.modalBody {
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+.fieldLabel {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  color: #3d4f61;
+  margin: 0.9rem 0 0.4rem;
+}
+
+.select {
+  flex: 1;
+  border: 1px solid #d7dee7;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  background: #f7f9fb;
+  color: #142433;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #2c7be5;
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.15);
+}
+
+.signedInAs {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: #163a5c;
+  background: #eaf1fb;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.modeToggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.modeBtn {
+  flex: 1;
+  border: 1px solid #d7dee7;
+  background: #f7f9fb;
+  color: #3d4f61;
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.modeBtnActive {
+  background: #163a5c;
+  border-color: #163a5c;
+  color: #fff;
+}
+
+.newAlbumBtn {
+  border: 1px solid #2c7be5;
+  color: #2c7be5;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.newAlbumBtn:hover {
+  background: #2c7be5;
+  color: #fff;
+}
+
+.dropzone {
+  border: 1.5px dashed #a9c0d6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #5b6b7c;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #f7f9fb;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.dropzone:hover {
+  border-color: #2c7be5;
+  background: #eaf1fb;
+}
+
+.errorText {
+  color: #b3413b;
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+}
+
+.progressText {
+  font-family: "IBM Plex Mono", monospace;
+  color: #2c7be5;
+  font-size: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #eaf1fb;
+  margin-top: 0.5rem;
+}
+
+.cancelBtn {
+  background: none;
+  border: 1px solid #d7dee7;
+  color: #3d4f61;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.cancelBtn:hover {
+  border-color: #2c7be5;
+  color: #163a5c;
+}

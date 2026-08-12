@@ -1,6 +1,8 @@
 // components/dashboard/WelcomeBanner.tsx
 "use client";
 
+//want to display a welcome banner with the logged in user's name from the supabase database, the current date, and some quick actions and KPIs. The banner should have a nice design and be responsive. It should also have some animations when it appears on the screen.
+
 import { useEffect, useState } from "react";
 import {
   motion,
@@ -20,6 +22,7 @@ import {
   Landmark,
   ArrowUpRight,
 } from "lucide-react";
+import { createClient as createSupabaseClient } from "@/utils/supabase/client";
 import styles from "../styles/welcomebannerB.module.css";
 
 const kpis = [
@@ -49,18 +52,12 @@ const quickActions = [
 ];
 
 function useGreeting() {
-  const [greeting, setGreeting] = useState("Good Morning");
-  useEffect(() => {
-    const hour = new Date().getHours();
-    setGreeting(
-      hour < 12
-        ? "Good Morning"
-        : hour < 17
-          ? "Good Afternoon"
-          : "Good Evening",
-    );
-  }, []);
-  return greeting;
+  const hour = new Date().getHours();
+  return hour < 12
+    ? "Good Morning"
+    : hour < 17
+      ? "Good Afternoon"
+      : "Good Evening";
 }
 
 const defaultTransition: Transition = {
@@ -93,6 +90,39 @@ const item: Variants = {
 export default function WelcomeBanner({ name = "Siyaat" }: { name?: string }) {
   const greeting = useGreeting();
   const prefersReducedMotion = useReducedMotion();
+  const [displayName, setDisplayName] = useState(name);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadUserName = async () => {
+      try {
+        const supabase = createSupabaseClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!isMounted || !user) return;
+
+        const metadataName =
+          (user.user_metadata?.full_name as string | undefined) ||
+          (user.user_metadata?.name as string | undefined);
+        const emailFallback = user.email?.split("@")[0];
+
+        setDisplayName(metadataName || emailFallback || name);
+      } catch {
+        if (isMounted) {
+          setDisplayName(name);
+        }
+      }
+    };
+
+    loadUserName();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [name]);
 
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -101,7 +131,7 @@ export default function WelcomeBanner({ name = "Siyaat" }: { name?: string }) {
     year: "numeric",
   });
 
-  const initials = name
+  const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -135,7 +165,7 @@ export default function WelcomeBanner({ name = "Siyaat" }: { name?: string }) {
           className={styles.left}
         >
           <p className={styles.greeting}>{greeting},</p>
-          <h1 className={styles.title}>Welcome back, {name}</h1>
+          <h1 className={styles.title}>Welcome back, {displayName}</h1>
 
           <div className={styles.metaRow}>
             <span className={styles.dateText}>{today}</span>

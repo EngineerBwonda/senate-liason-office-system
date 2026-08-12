@@ -1,0 +1,579 @@
+/* ---------- Design tokens ---------- */
+.page {
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-border: #e3e6eb;
+  --color-text: #1f2430;
+  --color-text-muted: #6b7280;
+  --color-accent: #3457d5;
+  --color-accent-hover: #2941aa;
+  --color-accent-soft: #eaeefc;
+  --color-danger: #d64545;
+  --radius: 10px;
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* Upload trigger — top-right of the header */
+.newDocButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 14px;
+  background: var(--color-accent);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.newDocButton:hover {
+  background: var(--color-accent-hover);
+}
+
+/* ---------- Search bar ---------- */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.searchBar:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+  color: var(--color-text);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ---------- Upload form (now inside the modal) ---------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+}
+
+.formTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 4px;
+}
+
+.input,
+.textarea {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+  background: var(--color-surface);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.fileInput {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: var(--color-accent);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: var(--color-danger);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ---------- Document list ---------- */
+.sectionLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 12px;
+}
+
+.emptyState {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  padding: 20px 0;
+  text-align: center;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- Document card ---------- */
+.card {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  overflow: hidden;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 10px rgba(52, 87, 213, 0.08);
+}
+
+/* Signature element: accent bar that reveals on hover */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.2s ease;
+}
+
+.card:hover::before {
+  transform: scaleY(1);
+}
+
+.cardMain {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.iconBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cardMeta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 2px 0 0;
+}
+
+.cardDescription {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 6px 0 0;
+  line-height: 1.4;
+}
+
+.cardActions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.iconButton:hover:not(:disabled) {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Preview / Upload modal (shared shell) ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 18, 25, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 24px;
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 900px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* Upload modal reuses the same shell but doesn't need the preview's
+   fixed 85vh height — it sizes to its form content instead. */
+.formModal {
+  height: auto;
+  max-height: 90vh;
+  max-width: 440px;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modalTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modalCloseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.modalCloseButton:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.modalFrame {
+  flex: 1;
+  border: none;
+}
+
+/* ---------- Document table ---------- */
+
+.tableSectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.resultCount {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.tableWrap {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(31, 36, 48, 0.04);
+  background: var(--color-surface);
+}
+
+/* "Industrial" header: solid dark bar, uppercase tracked labels */
+.tableHead {
+  background: var(--color-text);
+}
+
+.tableHead th {
+  background: var(--color-text) !important;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 14px;
+  border-bottom: none;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.sortableHead {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.sortableHead:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sortLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sortIconIdle {
+  opacity: 0.45;
+}
+
+.rowIndexHead {
+  width: 48px;
+  text-align: center;
+}
+
+.rowIndex {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tableRow td {
+  font-size: 13.5px;
+  padding: 12px 14px;
+  border-color: var(--color-border);
+  vertical-align: middle;
+}
+
+.tableRow:hover td {
+  background: var(--color-accent-soft);
+}
+
+.titleCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.iconBadgeSm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.descriptionCell {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+.dateCell {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.mutedDash {
+  color: var(--color-border);
+}
+
+/* File-type badge — one accent per extension so the table reads at a glance */
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 50px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.typeBadge[data-type="pdf"] {
+  background: #fde8e8;
+  color: #c53030;
+}
+
+.typeBadge[data-type="doc"],
+.typeBadge[data-type="docx"] {
+  background: #e6f0ff;
+  color: #1d4ed8;
+}
+
+.typeBadge[data-type="txt"] {
+  background: #f1f2f4;
+  color: #4b5563;
+}
+
+.typeBadge[data-type="png"],
+.typeBadge[data-type="jpg"],
+.typeBadge[data-type="jpeg"],
+.typeBadge[data-type="gif"],
+.typeBadge[data-type="webp"],
+.typeBadge[data-type="svg"] {
+  background: #e7f9ee;
+  color: #15803d;
+}
+
+.rowActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
+  .descriptionCell {
+    max-width: 140px;
+  }
+}

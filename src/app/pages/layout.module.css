@@ -1,0 +1,12 @@
+.content {
+  margin-left: var(--sidebar-width, 260px);
+  transition: margin-left 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  min-height: 100vh;
+}
+
+/* On mobile the sidebar is hidden (d-none d-md-flex), so remove the margin */
+@media (max-width: 767.98px) {
+  .content {
+    margin-left: 0;
+  }
+}

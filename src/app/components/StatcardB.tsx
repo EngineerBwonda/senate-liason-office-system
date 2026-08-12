@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -11,17 +11,20 @@ import {
 import {
   FileText,
   Mail,
-  BarChart3,
   Users,
   MessageSquare,
-  UserCheck,
   FileEdit,
   Newspaper,
+  Image,
   ArrowUpRight,
   ArrowDownRight,
   ChevronRight,
+  Send,
+  FileBarChart,
+  CalendarCheck,
   type LucideIcon,
 } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 import styles from "../styles/statcardB.module.css";
 
 type Accent =
@@ -45,6 +48,7 @@ interface StatItem {
   accent: Accent;
   href: string;
   progress?: number;
+  onClick?: () => void;
 }
 
 const stats: StatItem[] = [
@@ -53,81 +57,112 @@ const stats: StatItem[] = [
     icon: FileText,
     value: 24,
     label: "Minutes Received",
-    secondary: "+3 Today",
+    secondary: "receive and share minutes from other offices",
     trendDirection: "up",
     accent: "blue",
-    href: "/minutes",
+    href: "/pages/minutes",
   },
   {
-    id: "correspondence",
+    id: "incoming-correspondence",
     icon: Mail,
     value: 18,
-    label: "Correspondence",
-    secondary: "2 Pending Review",
+    label: "Incoming Correspondence",
+    secondary: "receive correspondence from other offices",
     trendDirection: "neutral",
     accent: "green",
-    href: "/correspondence",
+    href: "/pages/incoming-correspondence",
   },
   {
-    id: "reports",
-    icon: BarChart3,
+    id: "outgoing-correspondence",
+    icon: Send,
     value: 7,
-    label: "Reports",
-    secondary: "1 Due This Week",
+    label: "Outgoing Correspondence",
+    secondary: "send correspondence to other offices",
     trendDirection: "neutral",
     accent: "purple",
-    href: "/reports",
+    href: "/pages/outgoing-correspondence",
     progress: 62,
   },
   {
-    id: "meetings",
-    icon: Users,
+    id: "monthly-reports",
+    icon: FileBarChart,
     value: 5,
-    label: "Meetings Today",
+    label: "Monthly-Reports",
     secondary: "Next at 2:00 PM",
     trendDirection: "neutral",
     accent: "orange",
-    href: "/internal-meetings",
+    href: "/pages/monthly-reports",
+  },
+  {
+    id: "annual-reports",
+    icon: Users,
+    value: 5,
+    label: "receive and share annual reports",
+    secondary: "Next at 2:00 PM",
+    trendDirection: "neutral",
+    accent: "orange",
+    href: "/pages/annual-reports",
+  },
+
+  {
+    id: "quarterly-reports",
+    icon: CalendarCheck,
+    value: 5,
+    label: "receive and share quarterly reports",
+    secondary: "Next at 2:00 PM",
+    trendDirection: "neutral",
+    accent: "orange",
+    href: "/pages/quarterly-reports",
   },
   {
     id: "chats",
     icon: MessageSquare,
     value: 11,
     label: "Unread Chats",
-    secondary: "3 New",
+    secondary: "Team conversation and active threads",
     trendDirection: "up",
     accent: "cyan",
     href: "/chats",
   },
   {
-    id: "delegates",
-    icon: UserCheck,
+    id: "calendar",
+    icon: CalendarCheck,
     value: 3,
-    label: "Delegates Scheduled",
+    label: "Calendar of Events",
     secondary: "Confirmed",
     trendDirection: "neutral",
     accent: "indigo",
-    href: "/delegates",
+    href: "/pages/event-b",
   },
   {
     id: "memos",
     icon: FileEdit,
     value: 9,
     label: "Memos",
-    secondary: "Needs Attention",
+    secondary: "receive and share memos from other offices",
     trendDirection: "down",
     accent: "amber",
-    href: "/memos",
+    href: "/pages/memo",
   },
   {
     id: "feed",
     icon: Newspaper,
     value: 14,
     label: "Office Feed",
-    secondary: "Last updated 5 mins ago",
+    secondary: "receive and share updates from other offices",
     trendDirection: "neutral",
     accent: "red",
     href: "/feed",
+  },
+  {
+    id: "Gallery",
+    icon: Image,
+    value: 14,
+    label: "Gallery",
+    secondary: "photos and albums from recent events",
+    trendDirection: "neutral",
+    accent: "red",
+    href: "/pages/gallery-b",
   },
 ];
 
@@ -148,6 +183,74 @@ const item: Variants = {
 };
 
 const MotionLink = motion.create(Link);
+const MEMO_LAST_OPENED_KEY = "memo:last-opened-at";
+const INCOMING_LAST_OPENED_KEY = "incoming-correspondence:last-opened-at";
+const OUTGOING_LAST_OPENED_KEY = "outgoing-correspondence:last-opened-at";
+const MONTHLY_LAST_OPENED_KEY = "monthly-reports:last-opened-at";
+const ANNUAL_LAST_OPENED_KEY = "annual-reports:last-opened-at";
+const QUARTERLY_LAST_OPENED_KEY = "quarterly-reports:last-opened-at";
+const MINUTES_LAST_OPENED_KEY = "minutes:last-opened-at";
+const ATTENTION_LAST_OPENED_EVENT = "attention:last-opened-updated";
+
+type AttentionCardConfig = {
+  id: string;
+  table: string;
+  key: string;
+  singular: string;
+  plural: string;
+};
+
+const ATTENTION_CARDS: AttentionCardConfig[] = [
+  {
+    id: "memos",
+    table: "boss doc",
+    key: MEMO_LAST_OPENED_KEY,
+    singular: "Needs Attention",
+    plural: "Need Attention",
+  },
+  {
+    id: "incoming-correspondence",
+    table: "incoming_correspondence",
+    key: INCOMING_LAST_OPENED_KEY,
+    singular: "New Correspondence",
+    plural: "New Correspondence",
+  },
+  {
+    id: "outgoing-correspondence",
+    table: "outgoing_correspondence",
+    key: OUTGOING_LAST_OPENED_KEY,
+    singular: "New Outgoing",
+    plural: "New Outgoing",
+  },
+  {
+    id: "monthly-reports",
+    table: "monthly_reports",
+    key: MONTHLY_LAST_OPENED_KEY,
+    singular: "New Monthly Report",
+    plural: "New Monthly Reports",
+  },
+  {
+    id: "annual-reports",
+    table: "annual_reports",
+    key: ANNUAL_LAST_OPENED_KEY,
+    singular: "New Annual Report",
+    plural: "New Annual Reports",
+  },
+  {
+    id: "quarterly-reports",
+    table: "quarterlyb_reports",
+    key: QUARTERLY_LAST_OPENED_KEY,
+    singular: "Needs Attention",
+    plural: "Need Attention",
+  },
+  {
+    id: "minutes",
+    table: "minutes",
+    key: MINUTES_LAST_OPENED_KEY,
+    singular: "New Minute",
+    plural: "New Minutes",
+  },
+];
 
 function StatValue({
   value,
@@ -187,6 +290,7 @@ function StatCard({
   accent,
   href,
   progress,
+  onClick,
 }: StatItem) {
   const prefersReducedMotion = useReducedMotion();
   const TrendIcon = trendIconMap[trendDirection];
@@ -201,6 +305,7 @@ function StatCard({
       whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.025 }}
       whileTap={prefersReducedMotion ? undefined : { scale: 0.985 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
+      onClick={onClick}
     >
       <span className={styles.glow} aria-hidden="true" />
 
@@ -237,6 +342,129 @@ function StatCard({
 
 export default function StatsGrid() {
   const prefersReducedMotion = useReducedMotion();
+  const [attentionCounts, setAttentionCounts] = useState<
+    Record<string, number>
+  >({});
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    const loadCount = async ({ id, table, key }: AttentionCardConfig) => {
+      const lastOpenedAt = localStorage.getItem(key);
+
+      let query = supabase
+        .from(table)
+        .select("id", { count: "exact", head: true });
+
+      if (lastOpenedAt) {
+        query = query.gt("created_at", lastOpenedAt);
+      }
+
+      const { count, error } = await query;
+
+      if (error) {
+        console.error(`Error loading attention count for ${id}:`, error);
+        return;
+      }
+
+      setAttentionCounts((current) => ({
+        ...current,
+        [id]: count ?? 0,
+      }));
+    };
+
+    ATTENTION_CARDS.forEach((config) => {
+      void loadCount(config);
+    });
+
+    const channels = ATTENTION_CARDS.map((config) =>
+      supabase
+        .channel(`${config.id}-attention-changes`)
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: config.table },
+          (payload) => {
+            const lastOpenedAt = localStorage.getItem(config.key);
+            const createdAt = (payload.new as { created_at?: string })
+              .created_at;
+
+            if (!createdAt) return;
+
+            if (!lastOpenedAt || new Date(createdAt) > new Date(lastOpenedAt)) {
+              setAttentionCounts((current) => ({
+                ...current,
+                [config.id]: (current[config.id] ?? 0) + 1,
+              }));
+            }
+          },
+        )
+        .subscribe(),
+    );
+
+    const onStorage = (event: StorageEvent) => {
+      if (!event.key) return;
+      const config = ATTENTION_CARDS.find((item) => item.key === event.key);
+      if (!config) return;
+      void loadCount(config);
+    };
+
+    const onAttentionLastOpened = (event: Event) => {
+      const customEvent = event as CustomEvent<{ key?: string }>;
+      const key = customEvent.detail?.key;
+      if (!key) return;
+
+      const config = ATTENTION_CARDS.find((item) => item.key === key);
+      if (!config) return;
+      void loadCount(config);
+    };
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(ATTENTION_LAST_OPENED_EVENT, onAttentionLastOpened);
+
+    return () => {
+      channels.forEach((channel) => {
+        supabase.removeChannel(channel);
+      });
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(
+        ATTENTION_LAST_OPENED_EVENT,
+        onAttentionLastOpened,
+      );
+    };
+  }, []);
+
+  const handleOpenAttentionPage = (id: string, key: string) => {
+    localStorage.setItem(key, new Date().toISOString());
+    window.dispatchEvent(
+      new CustomEvent(ATTENTION_LAST_OPENED_EVENT, { detail: { key } }),
+    );
+    setAttentionCounts((current) => ({
+      ...current,
+      [id]: 0,
+    }));
+  };
+
+  const cards = stats.map((stat) => {
+    const attentionCard = ATTENTION_CARDS.find((card) => card.id === stat.id);
+
+    if (!attentionCard) {
+      return stat;
+    }
+
+    const count = attentionCounts[attentionCard.id] ?? 0;
+
+    return {
+      ...stat,
+      value: count,
+      secondary:
+        count === 1
+          ? `1 ${attentionCard.singular}`
+          : `${count} ${attentionCard.plural}`,
+      trendDirection: count > 0 ? ("up" as const) : ("neutral" as const),
+      onClick: () =>
+        handleOpenAttentionPage(attentionCard.id, attentionCard.key),
+    };
+  });
 
   return (
     <motion.div
@@ -245,10 +473,9 @@ export default function StatsGrid() {
       aria-label="Dashboard statistics"
       variants={prefersReducedMotion ? undefined : container}
       initial={prefersReducedMotion ? undefined : "hidden"}
-      whileInView={prefersReducedMotion ? undefined : "show"}
-      viewport={{ once: true, amount: 0.3 }}
+      animate={prefersReducedMotion ? undefined : "show"}
     >
-      {stats.map((stat) => (
+      {cards.map((stat) => (
         <div role="listitem" key={stat.id} className={styles.gridItem}>
           <StatCard {...stat} />
         </div>

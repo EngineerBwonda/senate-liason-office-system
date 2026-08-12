@@ -25,6 +25,7 @@
   --h2-size: 1.25rem;
   --h3-size: 1.125rem;
   --transition-fast: 150ms ease;
+  --sidebar-width: 260px;
 }
 
 @media (prefers-color-scheme: dark) {

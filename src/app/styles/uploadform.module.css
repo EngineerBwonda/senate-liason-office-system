@@ -1,0 +1,205 @@
+/* styles/UploadMinuteForm.module.css */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.labelHint {
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(10, 61, 145, 0.14);
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 0.8438rem;
+  color: #0f172a;
+  font-family: inherit;
+  resize: vertical;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #b0bac8;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+  background: #fff;
+}
+
+.fileDrop {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1.5px dashed rgba(10, 61, 145, 0.25);
+  background: rgba(13, 110, 253, 0.04);
+  font-size: 0.8125rem;
+  color: #475569;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.fileDrop:hover {
+  border-color: #0d6efd;
+  background: rgba(13, 110, 253, 0.07);
+}
+
+.fileDrop[data-filled="true"] {
+  border-style: solid;
+  border-color: rgba(13, 110, 253, 0.35);
+  background: rgba(13, 110, 253, 0.06);
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+.fileDropText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.18);
+  color: #b91c1c;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.successAlert {
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.18);
+  color: #15803d;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #0d6efd, #0a3d91);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(13, 110, 253, 0.28);
+  transition:
+    transform 0.15s,
+    box-shadow 0.2s,
+    opacity 0.2s,
+    filter 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px rgba(13, 110, 253, 0.36);
+  filter: brightness(1.05);
+}
+
+.submitBtn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- dark mode ---- */
+
+:global([data-bs-theme="dark"]) .label {
+  color: #cbd5e1;
+}
+
+:global([data-bs-theme="dark"]) .input,
+:global([data-bs-theme="dark"]) .textarea {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #eef2f7;
+}
+
+:global([data-bs-theme="dark"]) .input:focus,
+:global([data-bs-theme="dark"]) .textarea:focus {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:global([data-bs-theme="dark"]) .fileDrop {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #94a3b8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .textarea,
+  .fileDrop,
+  .submitBtn {
+    transition: none;
+  }
+  .spinner {
+    animation: none;
+  }
+}

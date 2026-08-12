@@ -1,0 +1,335 @@
+.page {
+  min-height: 100vh;
+  background: #f7faf7;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2f6b3f;
+  margin-bottom: 0.25rem;
+}
+
+.heading {
+  font-family: "Playfair Display", serif;
+  font-size: 2.25rem;
+  color: #16321d;
+  margin: 0;
+}
+
+.uploadBtn {
+  background: #2f6b3f;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.uploadBtn:hover {
+  background: #24522f;
+  transform: translateY(-1px);
+}
+
+.uploadBtnGhost {
+  background: transparent;
+  border: 1.5px solid #2f6b3f;
+  color: #2f6b3f;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.tabRow {
+  border-bottom: 1px solid #dbe6dc;
+  padding-bottom: 1rem;
+}
+
+.tab {
+  background: #eef4ee;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3c5943;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  border-color: #2f6b3f;
+}
+
+.tabActive {
+  background: #2f6b3f;
+  color: #fff;
+}
+
+.tabCount {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.tabActive .tabCount {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(22, 50, 29, 0.08);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.06);
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(to top, rgba(10, 28, 15, 0.85), transparent);
+  color: #fff;
+  padding: 1.5rem 0.9rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.card:hover .cardOverlay {
+  opacity: 1;
+}
+
+.cardAlbum {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #a9d6b0;
+}
+
+.cardCaption {
+  font-size: 0.85rem;
+}
+
+.cardUploader {
+  font-size: 0.72rem;
+  color: #cfe0d1;
+  margin-top: 0.1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #5b7360;
+}
+
+/* Lightbox */
+.lightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 12, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 2rem;
+}
+
+.lightboxBackdrop img {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 8px;
+}
+
+.lightboxCaption {
+  color: #eef4ee;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+/* Modal */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 12, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.modalHeader h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  color: #16321d;
+  margin: 0;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #5b7360;
+}
+
+.modalBody {
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #3c5943;
+  margin: 0.9rem 0 0.4rem;
+}
+
+.select {
+  flex: 1;
+  border: 1px solid #cfe0d1;
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  background: #fafdfa;
+}
+
+.signedInAs {
+  font-size: 0.82rem;
+  color: #3c5943;
+  background: #eef4ee;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.modeToggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.modeBtn {
+  flex: 1;
+  border: 1px solid #cfe0d1;
+  background: #fafdfa;
+  color: #3c5943;
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.modeBtnActive {
+  background: #2f6b3f;
+  border-color: #2f6b3f;
+  color: #fff;
+}
+
+.newAlbumBtn {
+  border: 1px solid #2f6b3f;
+  color: #2f6b3f;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dropzone {
+  border: 1.5px dashed #a9c9ad;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #5b7360;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #f7faf7;
+}
+
+.dropzone:hover {
+  border-color: #2f6b3f;
+}
+
+.errorText {
+  color: #b3413b;
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+}
+
+.progressText {
+  color: #2f6b3f;
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #eef4ee;
+  margin-top: 0.5rem;
+}
+
+.cancelBtn {
+  background: none;
+  border: 1px solid #cfe0d1;
+  color: #3c5943;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
